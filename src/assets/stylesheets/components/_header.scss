@@ -1,0 +1,72 @@
+header {
+
+  width: 100%;
+  color: white;
+  background-color: rebeccapurple;
+
+  .columns {
+
+    padding: .3em 0 .6em;
+
+    @include tablet() {
+      padding: 0;
+    }
+
+    &:first-child {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+  }
+
+  .column {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mobile() {
+      padding: 0;
+    }
+
+    @include tablet() {
+
+      &:first-child {
+        justify-content: flex-start;
+      }
+
+      &:last-child {
+        justify-content: flex-end;
+      }
+
+    }
+
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  a {
+    display: block;
+    color: white;
+    opacity: .8;
+    padding: 0 .5em;
+  }
+
+  p {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 0;
+  }
+
+}
