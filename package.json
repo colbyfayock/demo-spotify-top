@@ -4,6 +4,7 @@
   "version": "0.1.5",
   "author": "Colby Fayock <hello@colbyfayock.com>",
   "dependencies": {
+    "axios": "^0.19.2",
     "bulma": "^0.8.1",
     "deepmerge": "^4.2.2",
     "eslint-config-zurgbot": "^0.0.7",
