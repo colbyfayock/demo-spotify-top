@@ -105,7 +105,7 @@ async function getTopArtists({ token }) {
   try {
     response = await axios({
       method: 'get',
-      url: SPOTIFY_API_TOP_ARTISTS,
+      url: `${SPOTIFY_API_TOP_ARTISTS}?time_range=medium_term`,
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -127,7 +127,7 @@ async function getTopTracks({ token }) {
   try {
     response = await axios({
       method: 'get',
-      url: SPOTIFY_API_TOP_TRACKS,
+      url: `${SPOTIFY_API_TOP_TRACKS}?time_range=medium_term`,
       headers: {
         Authorization: `Bearer ${token}`
       }
