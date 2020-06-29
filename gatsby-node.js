@@ -4,6 +4,7 @@ const axios = require('axios');
 const SPOTIFY_API_TOKEN = 'https://accounts.spotify.com/api/token';
 const SPOTIFY_API_TOP_ARTISTS = 'https://api.spotify.com/v1/me/top/artists';
 const SPOTIFY_API_TOP_TRACKS = 'https://api.spotify.com/v1/me/top/tracks';
+const SPOTIFY_API_ARTIST_TOP_TRACKS = 'https://api.spotify.com/v1/artists/{id}/top-tracks';
 const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN;
@@ -26,7 +27,12 @@ exports.sourceNodes = async ({
     token: accessToken
   });
 
-  topArtists.forEach((node, index) =>
+  const topArtistsWithTracks = await getTopArtistsTracks({
+    artists: topArtists,
+    token: accessToken
+  })
+
+  topArtistsWithTracks.forEach((node, index) =>
     createNode({
       ...node,
       id: createNodeId(`${NODE_TYPE_TOP_ARTIST}-${node.id}`),
@@ -113,7 +119,7 @@ async function getTopArtists({ token }) {
 }
 
 /**
- * getTopArtists
+ * getTopTracks
  */
 
 async function getTopTracks({ token }) {
@@ -132,4 +138,45 @@ async function getTopTracks({ token }) {
   const { data = {} } = response;
   const { items = [] } = data;
   return items;
+}
+
+/**
+ * getTopTracksByArtistId
+ */
+
+async function getTopTracksByArtistId({ id, token }) {
+  const endpoint = SPOTIFY_API_ARTIST_TOP_TRACKS.replace('{id}', id);
+  let response;
+  try {
+    response = await axios({
+      method: 'get',
+      url: `${endpoint}?country=US`,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+  } catch(e) {
+    throw new Error(`Failed to get artist top tracks: ${e.message}`);
+  }
+  const { data = {} } = response;
+  const { tracks = [] } = data;
+  return tracks;
+}
+
+/**
+ * getTopArtistsTracks
+ */
+
+function getTopArtistsTracks({ artists, token }) {
+  return Promise.all(artists.map(async (artist) => {
+    const { id } = artist;
+    const tracks = await getTopTracksByArtistId({
+      id,
+      token
+    });
+    return {
+      ...artist,
+      top_tracks: tracks
+    }
+  }));
 }

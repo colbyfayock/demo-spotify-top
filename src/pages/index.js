@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaRocket } from 'react-icons/fa';
+import ReactAudioPlayer from 'react-audio-player';
+
 
 import { useSpotifyTopArtists, useSpotifyTopTracks } from 'hooks';
 
@@ -11,33 +13,54 @@ import Column from 'components/Column';
 import img_gatsby_zurg from 'assets/images/gatsby-zurg.png';
 
 const IndexPage = () => {
+  const [trackPreview, setTrackPreview] = useState();
+
   const { artists } = useSpotifyTopArtists();
   const { tracks } = useSpotifyTopTracks();
 
   console.log('artists', artists)
   console.log('tracks', tracks)
 
+  function handleSetTrack() {
+
+  }
+
   return (
     <Layout pageName="home">
       <Container className="content">
         <Columns>
           <Column>
+            {trackPreview && (
+              <ReactAudioPlayer
+                src={trackPreview}
+                autoPlay
+                controls
+                loop
+              />
+            )}
             <h2>Top Artists</h2>
             <ul>
               {artists.map(artist => {
-                const { id, name, images, genres } = artist;
+                const { id, name, images, genres, top_tracks } = artist;
+                const track = top_tracks[0];
+                const { preview_url } = track;
+
+                const artistStyles = {
+                  backgroundImage: `url(${images[0]?.url})`
+                }
+
                 return (
                   <li className="artist" key={id}>
-                    {images && images[0] && (
-                      <p className="artist-image" style={{
-                        backgroundImage: `url(${images[0]?.url})`
-                      }}>
-                        <span>Image of { name }</span>
-                      </p>
-                    )}
-                    <div className="artist-meta">
-                      <h3>{ name }</h3>
-                    </div>
+                    <button onClick={() => setTrackPreview(preview_url)}>
+                      {images && images[0] && (
+                        <p className="artist-image" style={artistStyles}>
+                          <span>Image of { name }</span>
+                        </p>
+                      )}
+                      <div className="artist-meta">
+                        <h3>{ name }</h3>
+                      </div>
+                    </button>
                   </li>
                 )
               })}
@@ -45,25 +68,27 @@ const IndexPage = () => {
             <h2>Top Tracks</h2>
             <ul>
               {tracks.map(track => {
-                const { id, name, album } = track;
+                const { id, name, album, preview_url } = track;
                 const { images, artists } = album;
                 const artist = artists && artists[0] && artists[0].name;
 
-                console.log('track', track)
+                const trackStyles = {
+                  backgroundImage: `url(${images[0]?.url})`
+                }
 
                 return (
                   <li className="track" key={id}>
-                    {images && images[0] && (
-                      <p className="track-image" style={{
-                        backgroundImage: `url(${images[0]?.url})`
-                      }}>
-                        <span>Image of { name }</span>
-                      </p>
-                    )}
-                    <div className="track-meta">
-                      <h3>{ name }</h3>
-                      <p>{ artist }</p>
-                    </div>
+                    <button onClick={() => setTrackPreview(preview_url)}>
+                      {images && images[0] && (
+                        <p className="track-image" style={trackStyles}>
+                          <span>Image of { name }</span>
+                        </p>
+                      )}
+                      <div className="track-meta">
+                        <h3>{ name }</h3>
+                        <p>{ artist }</p>
+                      </div>
+                    </button>
                   </li>
                 )
               })}

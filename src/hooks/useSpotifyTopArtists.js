@@ -14,6 +14,9 @@ function useSpotifyTopArtists() {
               genres
               id
               popularity
+              top_tracks {
+                preview_url
+              }
             }
           }
         }

@@ -20,6 +20,18 @@
 
   }
 
+  .artist,
+  .track {
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+
+  }
+
   .artist-meta,
   .track-meta {
 
