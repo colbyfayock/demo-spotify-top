@@ -1,0 +1,67 @@
+.player {
+
+  button {
+
+    width: 6em;
+    height: 6em;
+    font-size: inherit;
+    border-radius: 100%;
+    background: white;
+    border: solid 3px white;
+    outline: none;
+    cursor: pointer;
+
+    &:focus {
+      box-shadow: 0 0 12px rgba(magenta, 1);
+    }
+
+    span {
+      display: block;
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1px;
+      height: 1px;
+      text-indent: 100%;
+      color: transparent;
+    }
+
+    svg {
+      width: 2.6em;
+      height: 2.6em;
+    }
+
+    .icon-play {
+      transform: translateX(3px);
+    }
+
+  }
+
+}
+
+.player-inactive {
+
+  button {
+
+    background-color: transparent;
+    cursor: not-allowed;
+
+    svg {
+      color: white;
+      fill: white;
+    }
+
+  }
+
+}
+
+.player-audio {
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+}

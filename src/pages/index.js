@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaRocket } from 'react-icons/fa';
-import ReactAudioPlayer from 'react-audio-player';
 
 
 import { useSpotifyTopArtists, useSpotifyTopTracks } from 'hooks';
@@ -9,6 +8,8 @@ import Layout from 'components/Layout';
 import Container from 'components/Container';
 import Columns from 'components/Columns';
 import Column from 'components/Column';
+import Player from 'components/Player';
+
 
 import img_gatsby_zurg from 'assets/images/gatsby-zurg.png';
 
@@ -18,26 +19,14 @@ const IndexPage = () => {
   const { artists } = useSpotifyTopArtists();
   const { tracks } = useSpotifyTopTracks();
 
-  console.log('artists', artists)
-  console.log('tracks', tracks)
-
-  function handleSetTrack() {
-
-  }
-
   return (
     <Layout pageName="home">
       <Container className="content">
         <Columns>
           <Column>
-            {trackPreview && (
-              <ReactAudioPlayer
-                src={trackPreview}
-                autoPlay
-                controls
-                loop
-              />
-            )}
+            <Player
+              src={trackPreview}
+            />
             <h2>Top Artists</h2>
             <ul>
               {artists.map(artist => {
