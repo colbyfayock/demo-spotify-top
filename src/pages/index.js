@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaRocket } from 'react-icons/fa';
 
-import { useSpotifyTopArtists } from 'hooks';
+import { useSpotifyTopArtists, useSpotifyTopTracks } from 'hooks';
 
 import Layout from 'components/Layout';
 import Container from 'components/Container';
@@ -12,30 +12,57 @@ import img_gatsby_zurg from 'assets/images/gatsby-zurg.png';
 
 const IndexPage = () => {
   const { artists } = useSpotifyTopArtists();
+  const { tracks } = useSpotifyTopTracks();
+
   console.log('artists', artists)
-  // We don't include the title in Helmet here because we'll inherit the
-  // default title from Layout
+  console.log('tracks', tracks)
+
   return (
     <Layout pageName="home">
       <Container className="content">
         <Columns>
           <Column>
-            <h1>
-              🔥🎸 My Top Artists 🎸🔥
-            </h1>
+            <h2>Top Artists</h2>
             <ul>
               {artists.map(artist => {
                 const { id, name, images, genres } = artist;
                 return (
-                  <li key={id}>
+                  <li className="artist" key={id}>
                     {images && images[0] && (
-                      <p>
-                        <img src={images[0]?.url} />
+                      <p className="artist-image" style={{
+                        backgroundImage: `url(${images[0]?.url})`
+                      }}>
+                        <span>Image of { name }</span>
                       </p>
                     )}
-                    <div>
+                    <div className="artist-meta">
                       <h3>{ name }</h3>
-                      <p>{ genres.join(', ') }</p>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
+            <h2>Top Tracks</h2>
+            <ul>
+              {tracks.map(track => {
+                const { id, name, album } = track;
+                const { images, artists } = album;
+                const artist = artists && artists[0] && artists[0].name;
+
+                console.log('track', track)
+
+                return (
+                  <li className="track" key={id}>
+                    {images && images[0] && (
+                      <p className="track-image" style={{
+                        backgroundImage: `url(${images[0]?.url})`
+                      }}>
+                        <span>Image of { name }</span>
+                      </p>
+                    )}
+                    <div className="track-meta">
+                      <h3>{ name }</h3>
+                      <p>{ artist }</p>
                     </div>
                   </li>
                 )

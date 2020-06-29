@@ -8,28 +8,14 @@ import Column from 'components/Column';
 
 const Header = () => {
   return (
-    <header>
+    <header className="header">
       <Container>
-        <Columns>
-          <Column>
-            <p>My Gatsby Site</p>
-          </Column>
-          <Column>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/page-2/">Page 2</Link>
-              </li>
-              <li>
-                <a href="https://github.com/zurgbot/gatsby-starter-zurgbot">
-                  <FaGithub />
-                </a>
-              </li>
-            </ul>
-          </Column>
-        </Columns>
+        <h1>🔥🎸 Colby's Top on Spotify 🎸🔥</h1>
+        <p>
+          <a href="https://github.com/colbyfayock/demo-spotify-top">
+            View on Github <FaGithub />
+          </a>
+        </p>
       </Container>
     </header>
   );
